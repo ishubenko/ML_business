@@ -1,36 +1,36 @@
 # python-flask-docker
-Итоговый проект (пример) курса "Машинное обучение в бизнесе"
+Итоговый проект курса "Машинное обучение в бизнесе"
 
 Стек:
 
 ML: sklearn, pandas, numpy
 API: flask
-Данные: с kaggle - https://www.kaggle.com/shivamb/real-or-fake-fake-jobposting-prediction
+Данные: 
 
-Задача: предсказать по описанию вакансии является ли она фейком или нет (поле fraudulent). Бинарная классификация
+Задача: п параметрам определить потенциальное наличие сердечно-сосудистого заболевания у человека
 
 Используемые признаки:
 
-- description (text)
-- company_profile (text)
-- benefits (text)
+- 'age', 'height', 'weight', 'ap_hi', 'ap_lo'
+- 'gender', 'cholesterol'
+- 'gluc', 'smoke', 'alco', 'active'
 
 Преобразования признаков: tfidf
 
-Модель: logreg
+model: logreg
 
 ### Клонируем репозиторий и создаем образ
 ```
-$ git clone https://github.com/fimochka-sudo/GB_docker_flask_example.git
-$ cd GB_docker_flask_example
-$ docker build -t fimochka/gb_docker_flask_example .
+$ git clone https://github.com/ishubenko/ML_business.git
+$ cd project
+$ docker build -t ishubenko/ML_business .
 ```
 
 ### Запускаем контейнер
 
 Здесь Вам нужно создать каталог локально и сохранить туда предобученную модель (<your_local_path_to_pretrained_models> нужно заменить на полный путь к этому каталогу)
 ```
-$ docker run -d -p 8180:8180 -p 8181:8181 -v <your_local_path_to_pretrained_models>:/app/app/models fimochka/gb_docker_flask_example
+$ docker run -d -p 8180:8180 -p 8181:8181 -v <your_local_path_to_pretrained_models>:/app/app/models ishubenko/ML_business
 ```
 
 ### Переходим на localhost:8181

@@ -1,8 +1,8 @@
-FROM python:3.7
-LABEL maintainer="artemzraev@gmail.com"
+FROM python:3.8
+LABEL maintainer="shubenkilja@gmail.com"
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 EXPOSE 8180
 EXPOSE 8181
 VOLUME /app/app/models

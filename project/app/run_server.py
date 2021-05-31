@@ -31,12 +31,12 @@ def load_model(model_path):
 		model = dill.load(f)
 	print(model)
 
-modelpath = "/app/app/models/logreg_pipeline.dill"
+modelpath = "/app/models/logreg_pipeline.dill"
 load_model(modelpath)
 
 @app.route("/", methods=["GET"])
 def general():
-	return """Welcome to fraudelent prediction process. Please use 'http://<address>/predict' to POST"""
+	return """Welcome to cardio prediction process. Please use 'http://<address>/predict' to POST"""
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -47,21 +47,22 @@ def predict():
 	# ensure an image was properly uploaded to our endpoint
 	if flask.request.method == "POST":
 
-		description, company_profile, benefits = "", "", ""
+		# age, height, weight, ap_hi, ap_lo, gender, cholesterol, gluc, smoke, alco, active = "", "", "", "", "", "", "", "", "", "", ""
 		request_json = flask.request.get_json()
-		if request_json["description"]:
-			description = request_json['description']
+		features = ['age', 'height', 'weight', 'ap_hi', 'ap_lo', 'gender', 'cholesterol', 'gluc', 'smoke', 'alco', 'active']
+		input_vars = {}
+		for feature in features:
+			if request_json[feature]:
+				input_vars[feature] = request_json[feature]
 
-		if request_json["company_profile"]:
-			company_profile = request_json['company_profile']
 
-		if request_json["benefits"]:
-			benefits = request_json['benefits']
-		logger.info(f'{dt} Data: description={description}, company_profile={company_profile}, benefits={benefits}')
+		logger.info(f'{dt} Data: {input_vars}')
 		try:
-			preds = model.predict_proba(pd.DataFrame({"description": [description],
-												  "company_profile": [company_profile],
-												  "benefits": [benefits]}))
+			preds = model.predict_proba(pd.DataFrame(input_vars))
+				# {"age": [age],
+				# 								  "height": [height],
+				# 								  "weight": [weight],
+				# 									  }))
 		except AttributeError as e:
 			logger.warning(f'{dt} Exception: {str(e)}')
 			data['predictions'] = str(e)
