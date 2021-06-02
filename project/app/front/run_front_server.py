@@ -10,10 +10,17 @@ import urllib.request
 import json
 
 class ClientDataForm(FlaskForm):
-    description = StringField('Job Description', validators=[DataRequired()])
-    company_profile = StringField('Company Profile', validators=[DataRequired()])
-    benefits = StringField('Benefits', validators=[DataRequired()])
-
+    age = StringField('age', validators=[DataRequired()])
+    height = StringField('height', validators=[DataRequired()])
+    weight = StringField('weight', validators=[DataRequired()])
+    ap_hi = StringField('ap_hi', validators=[DataRequired()])
+    ap_lo = StringField('ap_lo', validators=[DataRequired()])
+    gender = StringField('gender', validators=[DataRequired()])
+    cholesterol = StringField('cholesterol', validators=[DataRequired()])
+    gluc = StringField('gluc', validators=[DataRequired()])
+    smoke = StringField('smoke', validators=[DataRequired()])
+    alco = StringField('alco', validators=[DataRequired()])
+    active = StringField('active', validators=[DataRequired()])
 
 app = Flask(__name__)
 app.config.update(
@@ -21,10 +28,20 @@ app.config.update(
     SECRET_KEY='you-will-never-guess',
 )
 
-def get_prediction(description, company_profile, benefits):
-    body = {'description': description,
-                            'company_profile': company_profile,
-                            'benefits': benefits}
+def get_prediction(age, height, weight, ap_hi, ap_lo, gender, cholesterol, gluc, smoke, alco, active):
+    body = {
+        'age': age,
+        'height': height,
+        'weight': weight,
+        'ap_hi': ap_hi,
+        'ap_lo': ap_lo,
+        'gender': gender,
+        'cholesterol': cholesterol,
+        'gluc': gluc,
+        'smoke': smoke,
+        'alco': alco,
+        'active': active
+    }
 
     myurl = "http://0.0.0.0:8180/predict"
     req = urllib.request.Request(myurl)
@@ -53,15 +70,33 @@ def predict_form():
     form = ClientDataForm()
     data = dict()
     if request.method == 'POST':
-        data['description'] = request.form.get('description')
-        data['company_profile'] = request.form.get('company_profile')
-        data['benefits'] = request.form.get('benefits')
+        data['age'] = request.form.get('age')
+        data['height'] = request.form.get('height')
+        data['weight'] = request.form.get('weight')
+        data['ap_hi'] = request.form.get('ap_hi')
+        data['ap_lo'] = request.form.get('ap_lo')
+        data['gender'] = request.form.get('gender')
+        data['cholesterol'] = request.form.get('cholesterol')
+        data['gluc'] = request.form.get('gluc')
+        data['smoke'] = request.form.get('smoke')
+        data['alco'] = request.form.get('alco')
+        data['active'] = request.form.get('active')
 
 
         try:
-            response = str(get_prediction(data['description'],
-                                      data['company_profile'],
-                                      data['benefits']))
+            response = str(get_prediction(data['age'],
+                                          data['height'],
+                                          data['weight'],
+                                          data['ap_hi'],
+                                          data['ap_lo'],
+                                          data['gender'],
+                                          data['cholesterol'],
+                                          data['gluc'],
+                                          data['smoke'],
+                                          data['alco'],
+                                          data['active'],
+                                          )
+                           )
             print(response)
         except ConnectionError:
             response = json.dumps({"error": "ConnectionError"})
