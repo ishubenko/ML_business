@@ -31,7 +31,7 @@ def load_model(model_path):
 		model = dill.load(f)
 	print(model)
 
-#modelpath = "/app/app/models/logreg_pipeline.dill"
+#modelpath = "/home/ishubenko/Загрузки/ml_business/project/app/modelka/logreg_pipeline.dill"
 modelpath = "/app/app/modelka/logreg_pipeline.dill"
 load_model(modelpath)
 
@@ -48,18 +48,65 @@ def predict():
 	# ensure an image was properly uploaded to our endpoint
 	if flask.request.method == "POST":
 
-		# age, height, weight, ap_hi, ap_lo, gender, cholesterol, gluc, smoke, alco, active = "", "", "", "", "", "", "", "", "", "", ""
+		age, height, weight, ap_hi, ap_lo, gender, cholesterol, gluc, smoke, alco, active = "", "", "", "", "", "", "", "", "", "", ""
 		request_json = flask.request.get_json()
-		features = ['age', 'height', 'weight', 'ap_hi', 'ap_lo', 'gender', 'cholesterol', 'gluc', 'smoke', 'alco', 'active']
-		input_vars = {}
-		for feature in features:
-			if request_json[feature]:
-				input_vars[feature] = request_json[feature]
+		if request_json["age"]:
+			age = request_json['age']
+		if request_json["height"]:
+			height = request_json['height']
+		if request_json["weight"]:
+			weight = request_json['weight']
+		if request_json["ap_hi"]:
+			ap_hi = request_json['ap_hi']
+		if request_json["ap_lo"]:
+			ap_lo = request_json['ap_lo']
+		if request_json["gender"]:
+			gender = request_json['gender']
+		if request_json["cholesterol"]:
+			cholesterol = request_json['cholesterol']
+		if request_json["gluc"]:
+			gluc = request_json['gluc']
+		if request_json["smoke"]:
+			smoke = request_json['smoke']
+		if request_json["alco"]:
+			alco = request_json['alco']
+		if request_json["active"]:
+			active = request_json['active']
+		# features_names = ['age', 'height', 'weight', 'ap_hi', 'ap_lo', 'gender', 'cholesterol', 'gluc', 'smoke', 'alco', 'active']
+		# input_vars = {
+		# 	'age': '',
+		# 	'height': '',
+		# 	'weight':'',
+		# 	'ap_hi':'',
+		# 	'ap_lo':'',
+		# 	'gender':'',
+		# 	'cholesterol':'',
+		# 	'gluc':'',
+		# 	'smoke':'',
+		# 	'alco':'',
+		# 	'active':''
+		# }
+		# for feature in features_names:
+		# 	if request_json[feature]:
+		# 		input_vars[feature] = request_json[feature]
 
 
-		logger.info(f'{dt} Data: {input_vars}')
+		# logger.info(f'{dt} Data: {input_vars}')
+		logger.info(
+			f'{dt} Data: age={age}, height={height}, weight={weight}, ap_hi={ap_hi}, ap_lo={ap_lo}, gender={gender}, cholesterol={cholesterol}, gluc={gluc}, smoke={smoke}, alco={alco}, active={active},')
 		try:
-			preds = model.predict_proba(pd.DataFrame(input_vars))
+			preds = model.predict_proba(pd.DataFrame({"age": [age],
+													  "height": [height],
+													  "weight": [weight],
+													  "ap_hi": [ap_hi],
+													  "ap_lo": [ap_lo],
+													  "gender": [gender],
+													  "cholesterol": [cholesterol],
+													  "gluc": [gluc],
+													  "smoke": [smoke],
+													  "alco": [alco],
+													  "active": [active]}))
+			# preds = model.predict_proba(pd.DataFrame(input_vars))
 				# {"age": [age],
 				# 								  "height": [height],
 				# 								  "weight": [weight],
@@ -84,3 +131,5 @@ if __name__ == "__main__":
 		"please wait until server has fully started"))
 	port = int(os.environ.get('PORT', 8180))
 	app.run(host='0.0.0.0', debug=True, port=port)
+	# predict(1880, 168, 62, 110, 80, 1, 1, 1, 0, 0, 1)
+	print(1)

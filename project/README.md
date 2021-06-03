@@ -23,14 +23,14 @@ model: logreg
 ```
 $ git clone https://github.com/ishubenko/ML_business.git
 $ cd project
-$ docker build -t ishubenko/ML_business .
+$ docker build -t ishubenko/ml_business .
 ```
 
 ### Запускаем контейнер
 
 Здесь Вам нужно создать каталог локально и сохранить туда предобученную модель (<your_local_path_to_pretrained_models> нужно заменить на полный путь к этому каталогу)
 ```
-$ docker run -d -p 8180:8180 -p 8181:8181 -v <your_local_path_to_pretrained_models>:/app/app/models ishubenko/ML_business
+$ docker run -d -p 8180:8180 -p 8181:8181 -v <your_local_path_to_pretrained_models>:/app/app/models ishubenko/ml_business
 ```
 
 ### Переходим на localhost:8181

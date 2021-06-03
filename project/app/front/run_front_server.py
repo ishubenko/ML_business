@@ -106,3 +106,4 @@ def predict_form():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8181, debug=True)
+    # get_prediction(1880, 168, 62, 110, 80, 1, 1, 1, 0, 0, 1)
